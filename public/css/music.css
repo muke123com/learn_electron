@@ -1,0 +1,49 @@
+.music-page .right{
+    position: relative;
+    padding-top: 50px;
+}
+.music-page .right .search{
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 10px;
+    width: 100%;
+    border-bottom: 1px solid #eee;
+}
+.music-page .right .search input{
+    width: 300px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+}
+.music-page .right audio {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+.music-page .right li{
+    padding-left: 25px;
+    line-height: 2.2em;
+    cursor: pointer;
+}
+.music-page .right li.active{
+    background: url(../images/playing.png) no-repeat 0 center;
+    background-size: 16px;
+}
+.music-page .left li{
+    cursor: pointer;
+}
+.music-page .left li.active{
+    background-color: #eee;
+}
+.music-page .left .button{
+    display: inline-block;
+    margin: 10px;
+    padding: 3px 5px;
+    font-size: 12px;
+    border-radius: 2px;
+    color: #fff;
+    background-color: #ff7200;
+    border: 1px solid #ff7200;
+}
