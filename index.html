@@ -7,8 +7,12 @@
 </head>
 <body>
     <div class="page">
-        <h2>electron</h2>
-        <p>Electron apps 使用JavaScript开发，其工作原理和方法与Node.js 开发相同。 electron模块包含了Electron提供的所有API和功能，引入方法和普通Node.js模块一样：</p>
+        <a href="javascript:void(0)" id="player">音乐播放器</a>
     </div>
+    <script>
+        document.getElementById('player').addEventListener('click', function () {
+            window.open('music/index.html');
+        })
+    </script>
 </body>
 </html>

@@ -25,6 +25,10 @@
 .music-page .right li{
     padding-left: 25px;
     line-height: 2.2em;
+    height: 2.2em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     cursor: pointer;
 }
 .music-page .right li.active{

@@ -19,10 +19,12 @@
         <div class="right scroll">
             <div class="search">
                 <input type="text" v-model="key">
+                <a href="javascript:void (0)" @click="skip('next')">下一首</a>
             </div>
             <ul>
                 <li v-for="(item, id) in musicList" v-if="item['name'].indexOf(key) != -1"
                     :class="{'active':currentId == id}"
+                    :title="item['name']"
                     @click="playMusic(id)">{{item['name']}}</li>
             </ul>
             <audio id="player" :src="musicPath" controls="controls" ></audio>
@@ -44,8 +46,11 @@
                 currentId: 0,
                 musicPath: '',
                 musicList: [],
+                allmusicList: [],
                 nums: 0,
                 currentTime: 0,
+                extnames: ['.mp3', '.flac'],
+                cacheMusic: {}
             },
             watch: {
                 currentId: function () {
@@ -53,6 +58,10 @@
                 },
                 filePathList: function () {
                     localStorage.setItem('filePathList', JSON.stringify(this.filePathList));
+                },
+                musicList: function () {
+                    this.nums = this.musicList.length;
+                    this.cacheMusic[this.currentDirId] = this.musicList;
                 }
             },
             created: function (){
@@ -103,6 +112,7 @@
                 addDir: function () {
                     let filePathList = this.filePathList;
                     dialog.showOpenDialog({ properties: ['openDirectory'] }, (filePaths)=> {
+                        if(!filePaths) return;
                         let hasPath = 0;
                         for(let k in filePathList){
                             filePaths.map((item)=>{
@@ -129,29 +139,36 @@
                     let _this = this;
                     if(this.currentDirId == '') return;
                     let filePath = this.filePathList[this.currentDirId];
-                    getFile(filePath);
+                    if(this.cacheMusic[this.currentDirId]){
+                        this.musicList = this.cacheMusic[this.currentDirId];
+                    }else {
+                        getFile(filePath);
+                    }
+
                     function getFile(filePath) {
+                        _this.musicList = [];
                         fs.readdir(filePath,  (err, files)=> {
                             if(err) throw err;
                             files.map(function (filename) {
 
                                 let fileDir = path.join(filePath, filename);
-
-                                fs.stat(fileDir, (err, stats)=>{
-                                    if(err) throw err;
-                                    let isFile = stats.isFile();
-                                    let isDir = stats.isDirectory();
-                                    if(isFile){
-                                        let o = {
-                                            'path': fileDir,
-                                            'name': filename
-                                        };
-                                        _this.musicList.push(o);
-                                    }
-                                    if(isDir){
-                                        getFile(fileDir)
-                                    }
-                                });
+                                if(_this.extnames.indexOf(path.extname(filename)) != -1){
+                                    fs.stat(fileDir, (err, stats)=>{
+                                        if(err) throw err;
+                                        let isFile = stats.isFile();
+                                        let isDir = stats.isDirectory();
+                                        if(isFile){
+                                            let o = {
+                                                'path': fileDir,
+                                                'name': filename
+                                            };
+                                            _this.musicList.push(o);
+                                        }
+                                        if(isDir){
+                                            getFile(fileDir)
+                                        }
+                                    });
+                                }
                             })
 //                        this.nums = files.length;
                         })
