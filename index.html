@@ -3,16 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="public/css/common.css" type="text/css">
+    <link rel="stylesheet" href="public/css/index.css" type="text/css">
     <title>electron</title>
 </head>
 <body>
-    <div class="page">
-        <a href="javascript:void(0)" id="player">音乐播放器</a>
+    <div class="page" id="main">
+        <div class="app-list">
+            <a href="javascript:void(0)" @click="openUrl('player')" id="">音乐播放器</a>
+        </div>
+
     </div>
     <script>
-        document.getElementById('player').addEventListener('click', function () {
-            window.open('music/index.html');
-        })
+        const os = require("os");
+        const Vue = require("vue/dist/vue");
+
+        const hrefList = {
+            'player': {
+                url: 'music/index.html'
+            }
+        };
+
+        let mainVue = new Vue({
+            el: '#main',
+            data: {
+                osInfo: {
+
+                }
+            },
+            created: function () {
+                this.getOsInfo();
+            },
+            methods: {
+                getOsInfo: function () {
+                    this.osInfo['type'] = os.type();
+                    this.osInfo['platform'] = os.platform();
+                    this.osInfo['hostname'] = os.hostname();
+                    this.osInfo['release'] = os.release();
+                    this.osInfo['cpus'] = os.cpus();
+                    this.osInfo['totalmem'] = parseInt(os.totalmem()/1000000);
+                    this.osInfo['freemem'] = parseInt(os.freemem()/1000000);
+                },
+                openUrl: function (key) {
+                    window.open(hrefList[key]['url']);
+                }
+            }
+        });
     </script>
 </body>
 </html>
