@@ -5,7 +5,7 @@ function createWindow () {
     win = new BrowserWindow({ width: 800, height: 600 })
     win.webContents.openDevTools();
     // 然后加载应用的 index.html。
-    win.loadFile('files/index.html')
+    win.loadFile('learn_dht/index.html')
 }
 
 app.on('ready', createWindow);
