@@ -27,7 +27,10 @@ nightmare
     })
     .wait(function () {
         $(".industry-select-list").show();
-        $(".industry-select-list .i-left span").eq(0).mouseover();
+        return true;
+    })
+    .mouseover('.industry-select-list .i-left span:nth-child(1)')
+    .wait(function () {
         if($(".industry-select-list .i-right span").length > 0){
             $(".industry-select-list .i-right span").eq(0).click();
         }else{
@@ -42,7 +45,20 @@ nightmare
     })
     .evaluate(() => $("[name=brandName]").val())
     .click('.submitorder')
-    .then(console.log)
+    .wait(function () {
+        if($(".layui-layer-btn1").length > 0){
+            $(".layui-layer-btn1").click();
+            return true
+        }
+    })
+    //申请人
+    .wait('.agentInfo-wrap')
+    .type('.company [name=fname]', 'www')
+    .type('.company [name=creditcode]', '123456789111111')
+    .type('.company [name=fcontactName]', '联系人')
+    .type('.company [name=fcontactTel]', '18755556666')
+    .type('.company [name=ftelephone]', '55556666')
+
     .catch(error => {
         console.log(error);
     });
