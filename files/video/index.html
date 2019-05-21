@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>video</title>
+</head>
+<body>
+    <div class="container">
+        <video src="1.mp4" controls></video>
+        <button type="button" onclick="vod.getVideo()">获取video</button>
+    </div>
+    <script>
+        const electron = require('electron');
+        const fs = require('fs');
+        const path = require('path');
+        class Video {
+            async getVideo(){
+                let fPath = path.join(__dirname, '1.mp4');
+                let v = fs.statSync(fPath);
+                console.log(v);
+            }
+        }
+        let vod = new Video();
+        
+    </script>
+</body>
+</html>

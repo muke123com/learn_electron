@@ -60,3 +60,5 @@ typings/
 # next.js build output
 .next
 .idea
+.vscode
+files/video/1.mp4
