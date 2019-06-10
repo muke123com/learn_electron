@@ -42,8 +42,18 @@ a{
     clear: both;
 }
 .button{
+    padding: 5px 8px;
     background-color: #ff7200;
     color: #fff;
+    border: 1px solid  #ff7200;
+}
+input[type=text] {
+    display: inline-block;
+    padding: 5px;
+    width: 300px;
+    height: 40px;
+    border-radius: 2px;
+    border: 1px solid #ddd;
 }
 /*滑动条*/
 .scroll::-webkit-scrollbar {

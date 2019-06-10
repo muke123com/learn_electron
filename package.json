@@ -9,7 +9,9 @@
     "electron": "^4.0.1"
   },
   "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
     "nightmare": "^3.0.1",
+    "request": "^2.88.0",
     "vue": "^2.5.21"
   }
 }
