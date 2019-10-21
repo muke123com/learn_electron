@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-size: 12px;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        .container {
+            height: 100%;
+        }
+
+        .content {
+            display: flex;
+            height: 100%;
+            justify-content: flex-start;
+            overflow: hidden;
+        }
+
+        .content p {
+            padding: 3px 5px;
+        }
+        .content p.active {
+            color: #fff;
+            background-color: #ff7200;
+        }
+        .content>div {
+            height: 100%;
+            overflow: auto;
+        }
+
+        .float-left {
+            float: left;
+        }
+
+        .author {
+            flex: 1;
+            border-right: 1px solid #333;
+        }
+
+        .title {
+            flex: 2;
+            border-right: 1px solid #333;
+        }
+
+        .detail {
+            padding: 15px;
+            flex: 5;
+        }
+        .ci-detail {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="ci">
+        <div class="content">
+            <div class="author float-left">
+                <p v-for="item in ciAuthorList" @click="selectAuthor" :class="{'active':aid == item['value']}" :data-value="item['value']"
+                    :data-name="item['name']">{{item['name']}}</p>
+            </div>
+            <div class="title float-left">
+                <p v-for="item in ciList" @click="selectTitle" :class="{'active':cid == item['value']}" :data-value="item['value']">{{item['rhythmic']}}</p>
+            </div>
+            <div class="detail float-left">
+                <p class="short-des">{{author['short_desc']}}</p>
+                <p class="long-des">{{author['long_desc']}}</p>
+                <div class="ci-detail" v-html="ciDetail"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const Vue = require("vue/dist/vue");
+        const path = require("path");
+        const fs = require("fs");
+        const filesPath = path.join(__dirname, "../files")
+
+        let ciList = fs.readFileSync(path.join(filesPath, "ci.json"), "utf-8")
+        ciList = JSON.parse(ciList)['RECORDS'];
+        let ciAuthorList = fs.readFileSync(path.join(filesPath, "ciauthor.json"), "utf-8")
+        ciAuthorList = JSON.parse(ciAuthorList)['RECORDS'];
+        let ciVue = new Vue({
+            el: "#ci",
+            data: {
+                aid: 1,
+                cid: 1,
+                ciAuthorList: ciAuthorList,
+                ciList: [],
+                author: {},
+                ci: {},
+                type: 1
+            },
+            created: function () {
+
+            },
+            computed: {
+                aidTest: function() {
+                    return this.aid;
+                },
+                ciDetail: function() {
+                    if(this.ci['content']) {
+                        return this.ci['content'].replace(/。/g, "。<br>")
+                    }
+                    return "";
+                }
+            },
+            methods: {
+                selectAuthor(e) {
+                    let authorList = this.ciAuthorList;
+                    let value = e.currentTarget.dataset.value;
+                    this.aid = value;
+                    let author = e.currentTarget.dataset.name;
+                    let authorObj = authorList.filter((item) => {
+                        return item['value'] == value
+                    })
+                    console.log(authorObj);
+                    let showCiList = ciList.filter((item) => {
+                        return item['author'] == author
+                    })
+                    this.ciList = showCiList;
+                    this.author = authorObj[0];
+
+                },
+                selectTitle(e) {
+                    let value = e.currentTarget.dataset.value;
+                    this.cid = value;
+                    let ci = ciList.filter((item) => {
+                        return item['value'] == value;
+                    })
+                    this.ci = ci[0];
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>
