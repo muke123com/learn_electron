@@ -7,7 +7,7 @@ function createWindow () {
     console.log(win.isMovable);
     // 然后加载应用的 index.html。
     // 加载远程URL
-    win.loadFile('spider/getImg.html')
+    win.loadFile('learn/index.html')
 }
 
 app.on('ready', createWindow);
