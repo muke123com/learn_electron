@@ -7,7 +7,7 @@
     "pack": "electron-packager . myClient --win --out myClient --arch=x64 --app-version=0.0.1"
   },
   "devDependencies": {
-    "electron": "^4.0.1",
+    "electron": "^9.1.0",
     "electron-packager": "^13.1.1"
   },
   "dependencies": {
